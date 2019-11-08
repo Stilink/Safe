@@ -17,11 +17,11 @@ public class HelloWorldConsumer implements Runnable, ExceptionListener {
     public void run() {
         try {
 
-            // Create a ConnectionFactory
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
+            // Create a ConnectionFactoryvm/
+            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616?jms.useAsyncSend=true");
 
             // Create a Connection
-            Connection connection = connectionFactory.createConnection();
+            Connection connection = connectionFactory.createConnection("smx","smx");
             connection.start();
 
             connection.setExceptionListener(this);
@@ -30,7 +30,7 @@ public class HelloWorldConsumer implements Runnable, ExceptionListener {
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
             // Create the destination (Topic or Queue)
-            Destination destination = session.createQueue("TEST.FOO");
+            Destination destination = session.createQueue("salida");
 
             // Create a MessageConsumer from the Session to the Topic or Queue
             MessageConsumer consumer = session.createConsumer(destination);
@@ -57,5 +57,9 @@ public class HelloWorldConsumer implements Runnable, ExceptionListener {
 
     public synchronized void onException(JMSException ex) {
         System.out.println("JMS Exception occured.  Shutting down client.");
+    }
+    public static void main(String[] args) {
+        HelloWorldConsumer hello = new HelloWorldConsumer();
+        hello.run();
     }
 }

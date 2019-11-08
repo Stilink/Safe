@@ -40,7 +40,7 @@ public class example {
                 producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
  
                 // Create a messages
-                String text = "Hello world! From: " + Thread.currentThread().getName() + " : " + this.hashCode();
+                String text = "Mensaje test 1! From: " + Thread.currentThread().getName() + " : " + this.hashCode();
                 TextMessage message = session.createTextMessage(text);
  
                 // Tell the producer to send the message
